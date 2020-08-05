@@ -1,0 +1,15 @@
+.neo-group-list {
+  @extend %list;
+
+  &__item {
+    @extend %list-item;
+    @extend %list-radius;
+
+    @include list-item-colors;
+    @include list-item-button;
+    @include list-item--disabled;
+  }
+
+  @include list--hover("item");
+  @include list--borderless;
+}

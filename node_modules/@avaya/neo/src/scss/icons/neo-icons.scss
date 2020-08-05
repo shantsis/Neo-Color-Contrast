@@ -1,0 +1,98 @@
+@import "neo-icons-variables";
+@import "neo-icons-font-face";
+@import "../variables";
+
+/* stylelint-disable property-no-vendor-prefix */
+[class^="aoc-"]::before,
+[class*="aoc-"]::before,
+[class^="neo-icon-"]::before,
+[class*="neo-icon-"]::before {
+  display: inline-block;
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: "AOC-Icons" !important;
+  -webkit-font-feature-settings: "liga";
+  -moz-font-feature-settings: "liga=1";
+  -moz-font-feature-settings: "liga";
+  -ms-font-feature-settings: "liga" 1;
+  font-feature-settings: "liga";
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-style: normal;
+  font-variant: normal;
+  -webkit-font-variant-ligatures: discretionary-ligatures;
+  font-variant-ligatures: discretionary-ligatures;
+  font-weight: normal;
+  height: auto;
+
+  /* Enable Ligatures ================ */
+  letter-spacing: 0;
+  min-height: 0;
+  speak: none;
+  text-align: center;
+  text-transform: none;
+  vertical-align: middle;
+  width: auto;
+}
+
+@function format-icon-content($icon-content) {
+  @return unquote('"') + unquote(str-insert($icon-content, "\\", 1)) +
+    unquote('"');
+}
+
+@mixin icon-rtl-render($icon-content) {
+  @at-root {
+    [dir="rtl"] & {
+      @if ($icon-content == "mirror") {
+        transform: scaleX(-1) !important;
+      } @else {
+        content: format-icon-content($icon-content);
+      }
+    }
+  }
+}
+
+@mixin generate-icon($icon-name) {
+  @if map-has-key($neo-icons-map, $icon-name) {
+    $icon-definition: map-get($neo-icons-map, $icon-name);
+    $icon-content: false;
+    $icon-rtl-content: false;
+
+    @if (type_of($icon_definition) == list) {
+      $icon-content: nth($icon_definition, 1);
+      $icon-rtl-content: nth($icon_definition, 2);
+    } @else if (type_of($icon-definition) == string) {
+      $icon-content: $icon_definition;
+    }
+
+    &::before {
+      content: format-icon-content($icon-content);
+
+      @if (type_of($icon-rtl-content) == string) {
+        @include icon-rtl-render($icon-rtl-content);
+      }
+    }
+  }
+}
+
+@each $key, $value in $neo-icons-map {
+  .neo-icon-#{$key},
+  .aoc-#{$key} {
+    @include generate-icon($key);
+  }
+}
+/* stylelint-enable property-no-vendor-prefix */
+
+@each $name, $color in $neo-state-colors {
+  .neo-icon--#{$name},
+  .aoc--#{$name} {
+    color: $color !important;
+  }
+
+  .neo-icon--bg-#{$name},
+  .aoc--bg-#{$name} {
+    background-color: $color !important;
+    color: $neo-white !important;
+  }
+}

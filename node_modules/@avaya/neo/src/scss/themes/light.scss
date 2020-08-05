@@ -1,0 +1,8 @@
+[data-theme="light"] {
+  @include define-color-hsl("navbar-background", hex-to-hsl(#ffffff));
+  @include define-color-hsl("navbar-text", hex-to-hsl(#000000));
+
+  @include define-color-hsl("footer-background", hex-to-hsl(#ededed));
+  @include define-color-hsl("footer-border", hex-to-hsl(#4b4b4b));
+  @include define-color-hsl("footer-text", hex-to-hsl(#4b4b4b));
+}

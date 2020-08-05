@@ -1,0 +1,58 @@
+// Used in next components and elements:
+// *Modal (../components/_modal.scss)
+// *Tooltip (../elements/_tooltip.scss)
+
+@keyframes show-element {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+// Used in next components and elements:
+// *Modal (../components/_modal.scss)
+
+@keyframes animation-modal-content {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
+  }
+}
+
+// Used in next components and elements:
+// *Spinner (../components/_spinner.scss)
+
+@keyframes spinner-animation {
+  0% {
+    animation-timing-function: cubic-bezier($spinner-timing-0);
+    transform: rotate(0);
+  }
+
+  50% {
+    animation-timing-function: cubic-bezier($spinner-timing-50);
+    transform: rotate(180deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+// Used in next components and elements:
+// *Widget (../components/_widget.scss)
+
+@keyframes widgetLoadingContent {
+  0% {
+    background-position: 0;
+  }
+
+  100% {
+    background-position: 100vw;
+  }
+}

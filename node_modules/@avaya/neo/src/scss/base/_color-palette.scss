@@ -1,0 +1,46 @@
+/* stylelint-disable selector-class-pattern */
+.color-red {
+  color: $neo-presence-red !important;
+}
+
+.bg-color-red {
+  background-color: $neo-presence-red;
+}
+
+.color-yellow {
+  color: $neo-presence-yellow !important;
+}
+
+.bg-color-yellow {
+  background-color: $neo-presence-yellow;
+}
+
+.color-green {
+  color: $neo-presence-green !important;
+}
+
+.bg-color-green {
+  background-color: $neo-presence-green;
+}
+
+.color-blue {
+  color: $neo-mid-blue !important;
+}
+
+.bg-color-blue {
+  background-color: $neo-mid-blue;
+}
+
+.color-white {
+  color: $neo-white !important;
+}
+
+.bg-color-white {
+  background-color: $neo-white;
+}
+
+body {
+  background-color: $global-background;
+  color: $global-text-color;
+}
+/* stylelint-enable selector-class-pattern */

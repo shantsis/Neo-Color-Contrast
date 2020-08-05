@@ -1,0 +1,75 @@
+@mixin accordion-header {
+  &__header {
+    @extend %list-item;
+
+    border: 0;
+    cursor: pointer;
+    position: relative;
+
+    &:focus {
+      outline: none;
+    }
+
+    &::after {
+      content: "\e9a1";
+      font-family: "AOC-Icons";
+      position: absolute;
+      right: $accordion-icon-offset;
+      text-align: center;
+      top: 50%;
+      transform: translate(0, -50%) $accordion-icon-animation;
+      transition: $accordion-icon-transition;
+
+      @include rtl-selector {
+        left: $accordion-icon-offset;
+        right: auto;
+      }
+    }
+
+    @include list-item-colors;
+    @include list-item-button;
+    @include list-item--disabled;
+  }
+}
+
+@mixin accordion--disabled {
+  &--disabled {
+    cursor: not-allowed;
+  }
+}
+
+.neo-accordion {
+  @extend %list;
+
+  &__item {
+    @extend %list-radius;
+
+    border: $accordion-border-width solid $accordion-border-color;
+    border-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    list-style: none;
+    overflow-y: hidden;
+
+    @include accordion--disabled;
+  }
+
+  &__body {
+    background-color: $accordion-body-background;
+    list-style-type: none;
+  }
+
+  &__content {
+    padding: $accordion-padding-y $accordion-padding-x;
+  }
+
+  &__item--active {
+    .neo-accordion__header::after {
+      transform: translate(0, -50%) $accordion-active-icon-animation;
+    }
+  }
+
+  @include list--hover("header");
+  @include accordion-header;
+  @include list--borderless;
+}

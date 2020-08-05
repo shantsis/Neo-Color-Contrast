@@ -1,0 +1,114 @@
+@mixin button-colors($button-type-colors) {
+  &:focus {
+    @if (map_has_key($button-type-colors, focus-bg-color)) {
+      background-color: map_get($button-type-colors, focus-bg-color);
+    }
+  }
+
+  &:hover {
+    @if (map_has_key($button-type-colors, hover-bg-color)) {
+      background-color: map_get($button-type-colors, hover-bg-color);
+    }
+  }
+
+  &:focus {
+    box-shadow: $input-focus-shadow;
+  }
+
+  &:active {
+    @if (map_has_key($button-type-colors, active-bg-color)) {
+      background-color: map_get($button-type-colors, active-bg-color);
+    }
+
+    @if (map_has_key($button-type-colors, active-box-shadow-color)) {
+      @if (
+        map_get($button-type-colors, active-box-shadow-color) != transparent
+      ) {
+        box-shadow: 0
+          1px
+          3px
+          3px
+          rgba(map_get($button-type-colors, active-box-shadow-color), 0.2);
+      } @else {
+        box-shadow: none;
+      }
+    }
+  }
+
+  &[disabled],
+  &--disabled {
+    @if (map_has_key($button-type-colors, disabled-bg-color)) {
+      background-color: map_get($button-type-colors, disabled-bg-color);
+      color: alpha($global-text-color, 50%);
+      cursor: not-allowed;
+      border-color: transparent;
+    }
+  }
+
+  @if (map_has_key($button-type-colors, bg-color)) {
+    background-color: map_get($button-type-colors, bg-color);
+    color: map_get($button-type-colors, text-color);
+
+    @if (map_has_key($button-type-colors, border-color)) {
+      border: 1px solid map_get($button-type-colors, border-color);
+    }
+  }
+}
+
+%button {
+  align-items: center;
+  border: 0;
+  border-radius: $button-border-radius;
+  cursor: pointer;
+  display: inline-flex;
+  font-weight: $button-font-weight;
+  height: $button-height;
+  outline: 0;
+  padding: 0 $button-padding-x;
+  transition: $button-transition;
+  width: auto;
+
+  &[type="button"] {
+    line-height: 1;
+  }
+
+  @include button-colors(map_get($button-types, "default"));
+}
+
+.neo-btn {
+  @extend %button;
+  @include neo-icons;
+}
+
+@include neo-icon-context {
+  &.neo-btn:empty {
+    display: inline-flex;
+    font-size: $button-icon-size;
+    height: $button-icon-size;
+    justify-content: center;
+    padding: 0;
+    width: $button-icon-size;
+
+    &::before {
+      font-size: #{$button-icon-size-ratio}em;
+    }
+  }
+}
+
+@each $button-type-name, $button-type-colors in $button-types {
+  @if ($button-type-name != "default") {
+    .neo-btn--#{$button-type-name} {
+      @include button-colors($button-type-colors);
+    }
+  }
+}
+
+.neo-btn--circle {
+  border-radius: 50%;
+
+  &.neo-btn:empty {
+    &::before {
+      font-size: $button-circle-icon-size;
+    }
+  }
+}

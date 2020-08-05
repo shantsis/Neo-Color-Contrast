@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+
+<body>
+<h4>NEO Contrast Checker</h4>
+<br>
+<div class="row neo-select-container" style = "margin-bottom: 8px;">
+    <label for ="foreground" class = "select-label">Foreground:       </label>
+    <div class="neo-select">
+        <select name = "foreground" id = "foreground"></select> 
+    </div>
+</div>
+<div class="row neo-select-container" >
+    <label for = "background" class = "select-label">Background:</label>
+    <div class="neo-select">
+        <select name = "background" id = "background"></select>
+    </div> 
+</div>
+<br>
+<div class="row">
+    <div class="column-left"><h3 id="contrast" class = "contrast-label contrastContainer">!</h3></div>
+    <div class="column-right">
+        <p style = "text-align: left"><span id = "UIElements" class = "neo-icon-end" style = "margin-right: 8px;"></span>UI Elements</p>
+        <p style = "text-align: left"><span id = "LargeText" class = "neo-icon-end" style = "margin-right: 8px;"></span>Large Text (>18 pt)</p>
+        <p style = "text-align: left"><span id = "Text" class = "neo-icon-end" style = "margin-right: 8px;"></span>Text</p>  
+    </div>
+</div>
+<br>
+<div class="row">Example</div>
+<div class="row" id = "contentArea">
+    <div class="column-left">
+        <p id = "text1" style= "font-size: 19;">Large Text</p>
+        <p id = "text2" style= "font-size: 14;">Regular Text</p>
+    </div>
+    <div class="column-right"><span id = "UIexample" class = "neo-icon-star-filled" style = "margin-right: 8px;"></span></div>
+</div>
+</body>
+
+<!--<div data-tooltip-type="special" data-tooltip="" class="style_grid--styleRow--xWAeH">
+    <div class="style_icon--styleIcon--3-PzQ style_grid--styleIcon--au-hL style_icon--fillIcon--2kZ-_" data-tooltip-type="special" data-tooltip="" data-tooltip-style-name="Gray 1">
+        <div>
+            <div class="style_icon--image--1eP8e style_grid--thumbnail--e5j8z" style="background-color: rgb(51, 51, 51);">
+            </div>
+        </div>
+    </div>
+    <div class="style_grid--name--281Gh ellipsis--ellipsis--1RWY6">Gray 1</div>
+    <img style = "height: 14; width: 14;"  src="<%= require('./close-circle.svg') %>"> 
+</div>-->

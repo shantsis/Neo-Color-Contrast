@@ -1,0 +1,390 @@
+%tab-nav {
+  align-items: flex-end;
+  display: flex;
+  list-style: none;
+  margin-bottom: 0;
+  margin-left: 0;
+  transition: $tab-transition;
+
+  @include rtl-selector {
+    margin: {
+      left: auto;
+      right: 0;
+    }
+  }
+}
+
+@mixin tab-items-active-for-vertical {
+  &--active,
+  &--active:hover {
+    background: $neo-light-grey;
+    border-left: tab-vertical-marker($neo-blue-grey);
+
+    @include rtl-selector {
+      border-left: 0;
+      border-right: tab-vertical-marker($neo-blue-grey);
+    }
+  }
+}
+
+@mixin tab-items-for-vertical {
+  > .neo-tabs__item {
+    border-left: tab-vertical-marker(transparent);
+    box-sizing: content-box;
+    margin-right: 0;
+    max-height: $tab-vertical-item-max-height;
+    max-width: $tab-vertical-item-width;
+    min-width: $tab-vertical-item-width;
+    padding: $tab-vertical-item-padding;
+    text-overflow: ellipsis;
+    text-transform: none;
+    white-space: pre-wrap;
+
+    @include rtl-selector {
+      border-left: 0;
+      border-right: tab-vertical-marker(transparent);
+      margin-left: 0;
+    }
+
+    a {
+      border-bottom: 0;
+      line-height: $tab-vertical-line-height;
+      padding: 0;
+      text-transform: inherit;
+    }
+
+    &:hover {
+      background: lighten($neo-light-grey, 7%);
+    }
+
+    @include tab-items-active-for-vertical;
+    @include tab--disabled;
+  }
+}
+
+@mixin tab-nav {
+  &__nav {
+    @extend %tab-nav;
+  }
+}
+
+@mixin tab-item {
+  &__item {
+    margin-right: $tab-offset;
+    position: relative;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include rtl-selector {
+      margin: {
+        left: $tab-offset;
+        right: initial;
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+      @include rtl-selector {
+        margin-left: 0;
+      }
+    }
+
+    a {
+      border-bottom: $tab-action-border-bottom-width solid transparent;
+      color: $tab-action-color;
+      cursor: pointer;
+      display: block;
+      margin: 0;
+      padding: $tab-padding-default;
+      text-decoration: none;
+      text-transform: capitalize;
+
+      &:focus {
+        box-shadow: $input-focus-shadow;
+        outline: none;
+      }
+    }
+
+    &:hover {
+      a {
+        color: $tab-action-active-color;
+      }
+    }
+
+    @include tab--active;
+    @include tab--disabled;
+  }
+
+  @include tab--bordered;
+}
+
+@mixin tab--active {
+  &--active {
+    a {
+      border-bottom-color: $tab-action-active-border-color;
+      color: $tab-action-active-color;
+    }
+  }
+}
+
+@mixin tab--disabled {
+  &--disabled,
+  &--disabled > a {
+    background-color: $tab-disabled-bg-color;
+    box-shadow: none;
+    color: $tab-disabled-color;
+    cursor: not-allowed;
+
+    &:hover,
+    &:focus {
+      background-color: $tab-disabled-bg-color;
+      box-shadow: none;
+      color: $tab-disabled-color;
+    }
+
+    .neo-close {
+      display: none;
+    }
+  }
+}
+
+@mixin neo-tab-bordered--disabled {
+  &--disabled {
+    > a {
+      background-color: $tab-bordered-disabled-bg-color;
+      border: {
+        left-color: $tab-bordered-disabled-bg-color;
+        right-color: $tab-disabled-bg-color;
+        top-color: $tab-disabled-bg-color;
+      }
+    }
+  }
+}
+
+@mixin tab-container {
+  &__container {
+    display: none;
+    padding-top: $global-spacer-large;
+
+    &--active {
+      display: flex;
+      flex-direction: column;
+    }
+  }
+}
+
+@mixin tab--bordered {
+  &--bordered {
+    border-bottom: $tab-bordered-border;
+
+    /* stylelint-disable-next-line selector-class-pattern */
+    .neo-tabs__item {
+      // Hides the bottom border of an active tab
+      margin-bottom: -$tab-bordered-border-width;
+
+      a {
+        background-color: $tab-bordered-bg-color;
+        border: $tab-bordered-border;
+        border-top: {
+          left-radius: $tab-bordered-border-radius;
+          right-radius: $tab-bordered-border-radius;
+        }
+      }
+
+      &--active a {
+        background-color: $tab-bordered-active-bg-color;
+        border-bottom-color: $tab-bordered-active-border-bottom-color;
+      }
+
+      @include neo-tab-bordered--disabled;
+    }
+
+    .neo-tabs__nav-scroll {
+      margin-bottom: -$tab-bordered-border-width;
+
+      .neo-tabs__item {
+        margin-bottom: 0;
+      }
+    }
+
+    .neo-close {
+      right: $tab-close-btn-offset-x;
+
+      @include rtl-selector {
+        left: $tab-close-btn-offset-x;
+        right: auto;
+      }
+    }
+  }
+}
+
+@mixin tab-size($tab-size, $tab-min-height, $tab-padding, $tab-action-padding) {
+  &--#{$tab-size} {
+    min-height: $tab-min-height;
+
+    a {
+      padding: $tab-padding;
+    }
+
+    .neo-tabs__action {
+      padding: $tab-action-padding;
+    }
+  }
+}
+
+@mixin tab-slider() {
+  .neo-tabs__nav-scroll {
+    display: flex;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+}
+
+@mixin tab-slider-action-content($directionName, $directionIcon) {
+  &.neo-tabs__action--#{$directionName} {
+    &::after {
+      content: $directionIcon;
+    }
+  }
+}
+
+@mixin tab-slider-action() {
+  .neo-tabs__action {
+    align-items: center;
+    color: $tab-action-color;
+    cursor: pointer;
+    display: flex;
+    margin: 0;
+    padding: $tab-action-padding-default;
+
+    @include rtl-selector {
+      @include tab-slider-action-content(prev, "\e99f");
+      @include tab-slider-action-content(next, "\e99e");
+    }
+
+    &::after {
+      font-family: "AOC-Icons";
+      line-height: $tab-action-line-height;
+    }
+
+    &:not(.neo-tabs__action--hidden) + .neo-tabs__nav-scroll {
+      ul {
+        margin: $tab-container-margin;
+      }
+    }
+
+    &--hidden {
+      display: none;
+    }
+
+    &--disabled {
+      color: $tab-action-disabled-color;
+      cursor: default;
+    }
+
+    @include tab-slider-action-content(prev, "\e99e");
+    @include tab-slider-action-content(next, "\e99f");
+  }
+}
+
+@mixin tab-close-btn {
+  .neo-close {
+    opacity: 0;
+    position: absolute;
+    right: 0;
+    top: calc(50% - #{$tab-action-border-bottom-width/2});
+    transform: translate(0%, -50%);
+
+    @include rtl-selector {
+      left: 0;
+      right: auto;
+    }
+  }
+
+  .neo-tabs__item:hover {
+    .neo-close {
+      opacity: 1;
+    }
+  }
+}
+
+@mixin extra-content {
+  &__extra-content {
+    align-items: center;
+    display: flex;
+
+    .neo-dropdown {
+      .neo-btn {
+        border: 0;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
+
+@mixin tab-vertical {
+  &--vertical {
+    border-right: $tab-vertical-border-right;
+    display: inline-flex;
+    min-height: 100%;
+
+    @include rtl-selector {
+      border-left: $tab-vertical-border-right;
+      border-right: 0;
+    }
+  }
+
+  &--wrapper {
+    height: inherit;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
+  &--vertical > &__nav {
+    @extend %tab-nav;
+    align-items: flex-start;
+    flex-direction: column;
+
+    @include tab-items-for-vertical;
+  }
+}
+
+.neo-tabs {
+  display: flex;
+  min-height: $tab-min-height-default;
+
+  &:not(.neo-tabs--vertical) {
+    border-bottom: 1px solid $tab-border-bottom-color;
+  }
+
+  @include tab-vertical;
+  @include tab-container;
+  @include tab-nav;
+  @include tab-close-btn;
+  @include extra-content;
+  @include tab-item;
+  @include tab-slider;
+  @include tab-slider-action;
+  @include tab-size(
+    small,
+    $tab-min-height-small,
+    $tab-padding-small,
+    $tab-action-padding-small
+  );
+  @include tab-size(
+    medium,
+    $tab-min-height-medium,
+    $tab-padding-medium,
+    $tab-action-padding-medium
+  );
+  @include tab-size(
+    large,
+    $tab-min-height-large,
+    $tab-padding-large,
+    $tab-action-padding-large
+  );
+}

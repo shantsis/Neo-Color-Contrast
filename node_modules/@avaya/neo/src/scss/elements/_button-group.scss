@@ -1,0 +1,25 @@
+@mixin neo-button-group {
+  .neo-btn {
+    border-radius: 0;
+    flex: none;
+    margin: 0;
+
+    + .neo-btn {
+      margin-left: $neo-button-group-offset;
+
+      @include rtl-selector {
+        margin: {
+          left: 0;
+          right: $neo-button-group-offset;
+        }
+      }
+    }
+  }
+}
+
+.neo-button-group {
+  display: flex;
+
+  @include neo-button-group;
+  @include neo-group-border-radius($global-radius);
+}

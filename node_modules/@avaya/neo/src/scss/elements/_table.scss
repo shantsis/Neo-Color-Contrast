@@ -1,0 +1,243 @@
+//
+// Tables
+//
+
+@mixin neo-table-children {
+  thead,
+  tbody,
+  tfoot {
+    background-color: $table-background;
+    border: $table-border;
+  }
+
+  td,
+  th {
+    padding: $table-padding;
+    text-align: left;
+    vertical-align: middle;
+
+    @include rtl-selector {
+      text-align: right;
+    }
+
+    .neo-input,
+    .neo-input-group,
+    .neo-btn,
+    .neo-button-group,
+    .neo-label,
+    .neo-chip,
+    .neo-switch,
+    .neo-group-list {
+      margin-bottom: 0;
+    }
+  }
+
+  .neo-table--disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  th {
+    background-color: $table-head-background;
+    color: $table-head-font-color;
+  }
+
+  td {
+    border-top: $table-border;
+  }
+
+  thead th {
+    vertical-align: bottom;
+  }
+
+  tfoot {
+    background-color: $table-foot-background;
+    color: $table-foot-font-color;
+  }
+}
+
+@mixin neo-table--bordered {
+  &--bordered {
+    th,
+    td {
+      border: $table-border;
+    }
+  }
+}
+
+@mixin neo-table--striped {
+  &--striped {
+    tbody tr:nth-of-type(#{$table-stripe}) {
+      background-color: $table-striped-background;
+
+      @if $table-stripe == even {
+        border-bottom: 0;
+      }
+    }
+
+    @if $table-stripe == odd {
+      thead th {
+        background: $table-background;
+      }
+    }
+  }
+}
+
+@mixin neo-table--hover {
+  &--hover {
+    thead tr:hover {
+      background-color: $table-head-hover;
+    }
+
+    tbody tr:hover {
+      background-color: $table-row-hover;
+      cursor: pointer;
+    }
+
+    tfoot tr:hover {
+      background-color: $table-foot-row-hover;
+    }
+  }
+}
+
+@mixin neo-table--condensed {
+  &--condensed {
+    th,
+    td {
+      padding: $table-condensed-padding;
+    }
+  }
+}
+
+@mixin neo-table--responsive {
+  &--responsive {
+    display: block;
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    overflow-x: auto;
+    width: 100%;
+  }
+}
+
+@mixin neo-table--sticky($axis, $position) {
+  th {
+    position: sticky;
+    // Resolves issue with defined border-spacing
+    #{$position}: -$table-border-width;
+  }
+  overflow-#{$axis}: auto;
+  padding-#{$position}: 0;
+}
+
+@mixin table-sort-order($orderName, $orderIcon) {
+  &.neo-table--#{$orderName} {
+    background-color: $table-sortable-background-active;
+
+    &::after {
+      content: $orderIcon;
+    }
+  }
+}
+
+@mixin neo-table--sortable {
+  /* stylelint-disable selector-no-qualifying-type */
+  &--sortable {
+    th {
+      cursor: pointer;
+      padding-right: $table-sortable-icon-margin-x * 2 +
+        $table-sortable-icon-size;
+      position: relative;
+
+      &:hover {
+        background-color: $table-sortable-background-hover;
+      }
+
+      &::after {
+        font-family: "AOC-Icons";
+        font-size: $table-sortable-icon-size;
+        line-height: $table-sortable-icon-line-height;
+        position: absolute;
+        right: $table-sortable-icon-margin-x;
+      }
+
+      @include table-sort-order(ascending, "\e9a1");
+      @include table-sort-order(descending, "\e9a0");
+    }
+  }
+  /* stylelint-enable selector-no-qualifying-type */
+}
+
+@mixin neo-table--editable {
+  &--editable {
+    background-color: $table-editable-bg-color;
+
+    > td {
+      @include neo-table--editable-border;
+    }
+  }
+}
+
+@mixin neo-table--editable-border {
+  &:first-child {
+    position: relative;
+
+    &::before {
+      border-left: $table-editable-border;
+      content: "";
+      height: 100%;
+
+      @include rtl-selector {
+        left: auto;
+        right: 0;
+      }
+      @include position(absolute, 0, null, null, 0);
+    }
+  }
+}
+
+@mixin neo-table-buttons {
+  :not(.neo-button-group) > .neo-btn {
+    margin-right: $table-button-margin;
+
+    @include rtl-selector {
+      margin: {
+        left: $table-button-margin;
+        right: 0;
+      }
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+      @include rtl-selector {
+        margin-left: 0;
+      }
+    }
+  }
+}
+
+.neo-table__container--sticky {
+  @include neo-table--sticky(x, top);
+}
+
+.neo-table__container--vsticky {
+  @include neo-table--sticky(y, left);
+}
+
+.neo-table {
+  background-color: transparent;
+  border-collapse: collapse;
+  empty-cells: show;
+  margin-bottom: $global-spacer;
+  max-width: 100%;
+  width: 100%;
+
+  @include neo-table-children;
+  @include neo-table--bordered;
+  @include neo-table--striped;
+  @include neo-table--hover;
+  @include neo-table--condensed;
+  @include neo-table--responsive;
+  @include neo-table--sortable;
+  @include neo-table--editable;
+  @include neo-table-buttons;
+}

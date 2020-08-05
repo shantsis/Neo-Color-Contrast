@@ -1,0 +1,30 @@
+.neo-badge {
+  $badge-size: round($badge-font-size * 1.4);
+
+  position: relative;
+
+  &::after {
+    background: $badge-background-color;
+    border-radius: $badge-size / 2;
+    box-sizing: border-box;
+    color: $badge-color;
+    content: attr(data-badge);
+    display: flex;
+    font-size: $badge-font-size;
+    height: $badge-size;
+    justify-content: center;
+    line-height: $badge-size;
+    min-width: $badge-size;
+    padding: $badge-padding;
+    position: absolute;
+    right: 0;
+    top: 0;
+    transform: translate($badge-offset, -$badge-offset);
+
+    @include rtl-selector {
+      left: 0;
+      right: auto;
+      transform: translate(-$badge-offset, -$badge-offset);
+    }
+  }
+}

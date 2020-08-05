@@ -1,0 +1,49 @@
+@mixin form--states {
+  @each $state-color-name, $state-color-value in $input-state-color-map {
+    &--#{$state-color-name} {
+      > .neo-input-group ~ label,
+      > .neo-input ~ label,
+      > .neo-select ~ label,
+      > .neo-radio ~ label,
+      > .neo-check ~ label,
+      > .neo-switch,
+      .neo-input-hint {
+        color: $state-color-value;
+      }
+
+      .neo-input,
+      .neo-chips,
+      .neo-select select {
+        border-color: $state-color-value;
+      }
+    }
+  }
+}
+
+@mixin form--required {
+  &--required {
+    > label {
+      &::after {
+        color: $input-asterix-required-color;
+        content: "*";
+        padding-left: 2px;
+      }
+    }
+  }
+}
+
+.neo-form {
+  &-control {
+    margin-bottom: $form-control-margin-bottom;
+
+    @include form--states;
+    @include form--required;
+  }
+
+  &--inline {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+}

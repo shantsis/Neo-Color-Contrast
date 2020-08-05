@@ -1,0 +1,95 @@
+@mixin neo-float-grid-row {
+  .#{$row-class-name} {
+    &::after {
+      clear: both;
+      content: "";
+      display: block;
+    }
+  }
+}
+
+@mixin neo-float-grid-columns {
+  [class*="#{$col-class-prefix}--"] {
+    box-sizing: border-box;
+    float: left;
+    width: 100%;
+
+    @include rtl-selector {
+      float: right;
+    }
+
+    &:last-child {
+      margin-right: 0;
+
+      @include rtl-selector {
+        margin: {
+          left: 0;
+          right: auto;
+        }
+      }
+    }
+  }
+
+  @include neo-float-grid-column-breakpoints;
+}
+
+/* stylelint-disable max-nesting-depth */
+@mixin neo-float-grid-column-breakpoints {
+  //responsive grids - from small to large
+  @each $bp-name, $bp-value in $neo-breakpoints {
+    // include breakpoint
+    @include from-screen-size($bp-value) {
+      @for $i from 1 to $columns + 1 {
+        // Define individual grids
+        .#{$col-class-prefix}--#{$bp-name}-#{$i} {
+          margin-right: gutter();
+          width: span($i);
+
+          @include rtl-selector {
+            margin: {
+              left: gutter();
+              right: 0;
+            }
+          }
+        }
+
+        // Hide element
+        .#{$col-class-hidden-prefix}--#{$bp-name} {
+          display: none !important;
+        }
+
+        // Push grid
+        .#{$col-class-push-prefix}--#{$bp-name}-#{$i} {
+          margin-left: span($i);
+
+          @include rtl-selector {
+            margin: {
+              left: 0;
+              right: span($i);
+            }
+          }
+        }
+
+        // Pull grid
+        .#{$col-class-pull-prefix}--#{$bp-name}-#{$i} {
+          margin-left: 0 - span($i);
+
+          @include rtl-selector {
+            margin: {
+              left: 0;
+              right: 0 - span($i);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+/* stylelint-enable max-nesting-depth */
+
+@mixin neo-float-grid {
+  @include neo-float-grid-row;
+  @include neo-float-grid-columns;
+}
+
+@include neo-float-grid;

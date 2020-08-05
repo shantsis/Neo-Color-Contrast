@@ -1,0 +1,33 @@
+.neo-slide {
+  animation-duration: $global-transition-duration;
+  animation-fill-mode: both;
+  animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  &--in {
+    animation-name: slideIn;
+  }
+
+  &--out {
+    animation-name: slideOut;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes slideOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+}

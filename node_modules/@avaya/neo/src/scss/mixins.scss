@@ -1,0 +1,135 @@
+// Shorthand mixin for offset positioning
+@mixin position(
+  $position,
+  $top: null,
+  $right: null,
+  $bottom: null,
+  $left: null
+) {
+  bottom: $bottom;
+  left: $left;
+  position: $position;
+  right: $right;
+  top: $top;
+}
+
+@mixin define-color-hsl($color, $hsl...) {
+  $hsl: nth($hsl, 1);
+  $hue: str-replace(#{nth($hsl, 1)}, "deg", "");
+  $saturation: nth($hsl, 2);
+  $lightness: nth($hsl, 3);
+  @include print-css-vars($color, $hue, $saturation, $lightness);
+}
+
+@mixin print-css-vars($color, $hue, $saturation, $lightness) {
+  --neo-#{$color}-color: #{unquote(
+      "hsl(#{$hue}, #{$saturation}, #{$lightness})"
+    )};
+  --neo-#{$color}-color-h: #{$hue};
+  --neo-#{$color}-color-s: #{$saturation};
+  --neo-#{$color}-color-l: #{$lightness};
+}
+
+// Media query to apply styles to all screens that are greater than given 'min-width' value
+@mixin from-screen-size($min-width) {
+  @media only screen and (min-width: $min-width) {
+    @content;
+  }
+}
+
+/// Removes the focus ring around an element when a mouse input is detected.
+@mixin disable-mouse-outline {
+  [data-whatinput="mouse"] & {
+    outline: 0;
+  }
+}
+
+@mixin neo-icon-context($is-same-level: false) {
+  @if ($is-same-level) {
+    &[class^="aoc-"],
+    &[class*="aoc-"],
+    &[class^="neo-icon-"],
+    &[class*="neo-icon-"] {
+      @content;
+    }
+  } @else {
+    [class^="aoc-"],
+    [class*="aoc-"],
+    [class^="neo-icon-"],
+    [class*="neo-icon-"] {
+      @content;
+    }
+  }
+}
+
+@mixin neo-icon($is-same-level: false) {
+  @if ($is-same-level) {
+    @include neo-icon-context($is-same-level: true) {
+      &::before {
+        @content;
+      }
+    }
+  } @else {
+    @include neo-icon-context {
+      &::before {
+        @content;
+      }
+    }
+  }
+}
+
+/// Vertically centers the element inside of its first non-static parent,
+/// @link http://www.sitepoint.com/centering-with-sass/ Centering With Sass
+@mixin vertical-center {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+@mixin rtl-selector() {
+  @at-root [dir="rtl"] & {
+    @content;
+  }
+}
+
+// Popover mixins are used by Popover and Dropdown components
+
+@mixin neo-popover-content(
+  $animation-duration: $popover-animation-duration,
+  $content-background-color: $popover-content-background-color,
+  $content-border: $popover-content-border,
+  $radius: $popover-radius,
+  $content-shadow: $popover-content-shadow,
+  $content-padding: $popover-content-padding,
+  $content-z: $popover-content-z,
+  $content-min-width: $popover-min-width
+) {
+  &__content {
+    animation: show-element $animation-duration;
+    background-color: $content-background-color;
+    border: $content-border;
+    border-radius: $radius;
+    box-shadow: $content-shadow;
+    display: none;
+    left: 0;
+    margin: 0;
+    min-width: $content-min-width;
+    padding: $content-padding 0;
+    position: absolute;
+    top: 100%;
+    z-index: $content-z;
+
+    @include rtl-selector {
+      left: initial;
+      right: 0;
+    }
+  }
+}
+
+@mixin neo-popover-states {
+  &--onhover:hover > &__content,
+  &--active > &__content {
+    display: block;
+    position: absolute;
+  }
+}

@@ -1,0 +1,138 @@
+%pagination {
+  align-content: space-between;
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  text-align: center;
+}
+
+@mixin pagination-item {
+  &__item {
+    @extend %button;
+    background-color: $pagination-btn-background;
+    border: $pagination-border;
+    color: $pagination-color;
+    margin: 0 $pagination-margin;
+    min-width: $pagination-min-width-item;
+    text-decoration: none;
+
+    @include pagination-item--hover;
+    @include pagination-item--disabled;
+    @include pagination-item--active;
+  }
+}
+
+@mixin pagination-list-position {
+  &--is-right {
+    .neo-pagination__list {
+      margin-left: auto;
+
+      @include rtl-selector {
+        margin: {
+          left: initial;
+          right: auto;
+        }
+      }
+    }
+  }
+
+  &--is-left {
+    .neo-pagination__list {
+      margin-right: auto;
+
+      @include rtl-selector {
+        margin: {
+          left: auto;
+          right: initial;
+        }
+      }
+    }
+  }
+}
+
+@mixin pagination-item--hover {
+  &:hover {
+    background-color: $pagination-btn-background;
+    border-color: $pagination-border-color-hover;
+    color: $neo-black;
+    transition: $pagination-transition;
+  }
+}
+
+@mixin pagination-item--disabled {
+  &--disabled,
+  &--disabled:hover,
+  &--disabled:active,
+  &[disabled] {
+    background-color: $pagination-disabled-bg;
+    border: 0;
+    box-shadow: none;
+    color: $pagination-disabled-color;
+    cursor: not-allowed;
+  }
+}
+
+@mixin pagination-item--active {
+  &--active {
+    background-color: $pagination-item-color-current;
+    border-color: darken($pagination-item-color-current, 20%);
+    color: $neo-white;
+    font-weight: bold;
+
+    &:hover {
+      background-color: lighten($pagination-item-color-current, 5%);
+      border-color: darken($pagination-item-color-current, 5%);
+      color: $neo-white;
+    }
+  }
+}
+
+@mixin pagination-list {
+  &__list {
+    @extend %pagination;
+    list-style-type: none;
+    margin: $pagination-margin;
+  }
+}
+
+@mixin pagination-dots {
+  &__dots {
+    color: $pagination-dots-color;
+    font-size: $pagination-dots-size;
+    pointer-events: none;
+  }
+}
+
+@mixin pagination-label {
+  &__label {
+    font-size: $pagination-label-font-size;
+    margin-right: $pagination-spacer;
+
+    @include rtl-selector {
+      margin: {
+        left: $pagination-spacer;
+        right: initial;
+      }
+    }
+  }
+}
+
+// Basic class
+//
+// Easily usable on <nav>.
+
+.neo-pagination {
+  @extend %pagination;
+  font-size: $pagination-font-size;
+
+  > .neo-pagination__select {
+    width: auto;
+  }
+
+  @include pagination-list;
+  @include pagination-item;
+  @include pagination-dots;
+  @include pagination-list-position;
+  @include pagination-label;
+}

@@ -1,0 +1,23 @@
+.neo-empty-state {
+  color: $empty-state-color;
+  font-size: $empty-state-font-size;
+  font-weight: $empty-state-font-weight;
+  left: 0;
+  overflow-x: hidden;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%);
+
+  @include neo-icon {
+    color: inherit;
+    font-size: $empty-state-icon-size;
+    margin-bottom: $global-spacer-large;
+    width: 100%;
+  }
+
+  > *:last-child {
+    margin-bottom: 0;
+  }
+}

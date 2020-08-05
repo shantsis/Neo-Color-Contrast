@@ -1,0 +1,159 @@
+%neo-select {
+  background-color: $select-background-color;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+}
+
+@mixin neo-select-element {
+  > select {
+    /* stylelint-disable-next-line property-no-vendor-prefix */
+    -webkit-appearance: none;
+    /* stylelint-disable-next-line property-no-vendor-prefix */
+    -moz-appearance: none;
+    background-color: $select-background-color;
+    border: 1px solid $select-border-color;
+    border-radius: $select-border-radius;
+    box-shadow: $select-box-shadow;
+    color: $select-font-color;
+    cursor: pointer;
+    display: block;
+    font-size: $select-font-size;
+    line-height: $select-line-height;
+    min-height: $select-height;
+    padding: $select-padding-y $select-offset-x $select-padding-y
+      $select-padding-x;
+    width: 100%;
+
+    @include rtl-selector {
+      padding: {
+        left: $select-offset-x;
+        right: $select-padding-x;
+      }
+    }
+
+    @include neo-select--disabled;
+    @include neo-select-focus;
+  }
+}
+
+@mixin neo-select-multiple {
+  [multiple] {
+    padding: 0;
+
+    @include rtl-selector {
+      padding: 0;
+    }
+
+    option {
+      padding: $select-padding-y $select-offset-x $select-padding-y
+        $select-padding-x;
+
+      @include rtl-selector {
+        padding: {
+          left: $select-offset-x;
+          right: $select-padding-x;
+        }
+      }
+    }
+  }
+}
+
+@mixin neo-select--disabled {
+  &:disabled {
+    background-color: $select-disabled-bg;
+    color: $select-disabled-color;
+    cursor: not-allowed;
+  }
+}
+
+@mixin neo-select-focus {
+  &:focus {
+    box-shadow: $input-focus-shadow;
+    outline: 0;
+  }
+}
+
+@mixin neo-select-arrow {
+  &:not(.neo-select--multiple)::after {
+    align-items: center;
+    content: $select-arrow-icon;
+    display: inline-flex;
+    justify-content: center;
+    pointer-events: none;
+    position: absolute;
+    right: $select-padding-x;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: $select-transition;
+    width: $select-icon-width;
+
+    @include rtl-selector {
+      left: $select-padding-x;
+      right: auto;
+    }
+  }
+
+  &:hover::after {
+    color: $neo-mid-blue;
+  }
+}
+
+@mixin neo-select-spinner {
+  &__spinner {
+    @include neo-spinner;
+    @include neo-select-spinner-override;
+  }
+}
+
+@mixin neo-select-spinner-override {
+  animation: none;
+  height: auto;
+  width: 100%;
+
+  &:not(.neo-select--multiple)::after {
+    content: "";
+    height: $select-icon-height;
+    left: auto;
+    margin: 0;
+    top: $select-icon-width / 2;
+    width: $select-icon-width;
+    @include spinner-animation;
+  }
+}
+
+@mixin neo-select-icon {
+  &__icon {
+    align-items: center;
+    display: inline-flex;
+    height: $select-height;
+    justify-content: center;
+    left: $select-padding-x;
+    position: absolute;
+
+    @include rtl-selector {
+      left: auto;
+      right: $select-padding-x;
+    }
+
+    + select {
+      padding-left: $select-offset-x;
+
+      @include rtl-selector {
+        padding: {
+          right: $select-offset-x;
+        }
+      }
+    }
+  }
+}
+
+.neo-select {
+  @extend %neo-select;
+
+  @include neo-select-element;
+  @include neo-select-multiple;
+  @include neo-select-arrow;
+  @include neo-select-spinner;
+  @include neo-select-icon;
+}

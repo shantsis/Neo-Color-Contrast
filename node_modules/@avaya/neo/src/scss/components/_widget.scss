@@ -1,0 +1,117 @@
+@mixin neo-widget-header {
+  &__header {
+    align-items: center;
+    border-bottom: 1px solid $widget-border-color;
+    box-sizing: border-box;
+    color: $widget-heading-color;
+    display: inline-flex;
+    font-size: $widget-heading-font-size;
+    font-weight: $widget-heading-font-weight;
+    height: $widget-heading-height;
+    justify-content: flex-start;
+    margin: 0;
+    overflow: hidden;
+    padding: $widget-heading-padding;
+    text-overflow: ellipsis;
+
+    @include neo-icons;
+  }
+}
+
+@mixin neo-widget-content--loading {
+  .neo-widget--loading > & {
+    color: transparent;
+    font-size: 0;
+    overflow: hidden;
+    padding: $widget-heading-padding;
+    text-shadow: none;
+
+    > * {
+      display: none;
+    }
+
+    &::before {
+      animation: widgetLoadingContent 2s infinite linear;
+      background: linear-gradient(
+        to right,
+        $neo-mid-grey 50%,
+        $neo-blue-grey-dark
+      );
+      background-size: 100vw;
+      content: "";
+      display: flex;
+      height: 160px;
+      opacity: 0.2;
+    }
+
+    &::after {
+      background: $neo-white;
+      background-clip: content-box;
+      box-shadow: 0 20px $neo-white, 0 60px $neo-white, 0 80px $neo-white,
+        350px 100px $neo-white, 0 120px $neo-white, 450px 140px $neo-white;
+      content: "";
+      height: 20px;
+      left: 0;
+      padding-left: 50%;
+      position: absolute;
+      top: $widget-heading-padding;
+      width: 100%;
+    }
+  }
+}
+
+@mixin neo-widget-content {
+  &__content {
+    flex: 1;
+    min-height: $widget-content-min-height;
+    overflow: auto;
+    padding: 0;
+    position: relative;
+
+    &--indented {
+      padding: $widget-content-padding;
+    }
+
+    &--no-scroll {
+      overflow: hidden;
+    }
+
+    @include neo-widget-content--loading;
+  }
+}
+
+@mixin neo-widget-footer {
+  &__footer {
+    border-top: 1px solid $widget-border-color;
+    padding: $widget-footer-padding;
+    text-align: right;
+
+    @include rtl-selector {
+      text-align: left;
+    }
+  }
+}
+
+@mixin neo-widget--disabled {
+  &--disabled {
+    cursor: not-allowed;
+    opacity: $widget-disabled-opacity;
+  }
+}
+
+.neo-widget {
+  background: $neo-white;
+  border: 1px solid $widget-border-color;
+  border-radius: $widget-border-radius;
+  box-shadow: $widget-box-shadow;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  max-width: 100%;
+
+  @include neo-widget-header;
+  @include neo-widget-content;
+  @include neo-widget-footer;
+  @include neo-widget--disabled;
+  @include neo-flat;
+}

@@ -1,0 +1,29 @@
+.neo-input-icon {
+  position: relative;
+
+  .neo-input {
+    &:not(:first-child) {
+      padding-left: $input-group-icon-padding;
+    }
+
+    &:not(:last-child) {
+      padding-right: $input-group-icon-padding;
+    }
+
+    + [class*="aoc-"],
+    + [class*="neo-icon"] {
+      left: auto;
+      right: 0;
+    }
+  }
+
+  [class*="aoc-"],
+  [class*="neo-icon"] {
+    align-items: center;
+    display: inline-flex;
+    height: $input-group-icon-height;
+    justify-content: center;
+    padding: $input-group-icon-offset;
+    @include position(absolute, auto, auto, 0, 0);
+  }
+}
