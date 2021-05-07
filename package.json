@@ -1,12 +1,12 @@
 {
   "name": "neocolorcontrast",
-  "version": "1.0.0",
-  "description": "Your Figma Plugin",
+  "version": "2.0.0",
+  "description": "Color contrast plugin for the Neo design system",
   "main": "code.js",
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
-  "author": "",
+  "author": "Shaina Hantsis",
   "license": "",
   "devDependencies": {
     "@figma/plugin-typings": "^1.15.0",
@@ -21,6 +21,6 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
-    "@avaya/neo": "^2.90.2"
+    "@avaya/neo": "^3.25.0"
   }
 }
