@@ -9,7 +9,7 @@ To run the plugin,
 3. Once the colors load, change either the foreground or background color to generate a [WCAG color contrast score](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html).
 
 # Demo
-![GIF of using the plugin](https://github.com/shantsis/temp-contrast/blob/main/demo.gif)
+![GIF of using the plugin](https://github.com/shantsis/temp-contrast/blob/master/demo.gif)
 
 # Making it Your Own
 Link up to your own library or manually enter the colors into the plugin to generate your own values.
