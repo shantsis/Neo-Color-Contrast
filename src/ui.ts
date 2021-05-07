@@ -1,11 +1,8 @@
 import './ui.css'
-import '../node_modules/@avaya/neo/dist/css/neo/neo.min.css'
+import '../node_modules/@avaya/neo/neo/dist/css/neo/neo.min.css'
 import {getColors} from "./data"
 import {calculateContrast} from "./contrast"
-
-//to access the figma file as a viewer
-const personalAccessToken = "53466-9480025e-3702-4699-a36c-5abb24170269"
-const fileID = "HJ9q7d5gny6hYZQdyWxe8n"
+import {personalAccessToken, fileID} from "./credentials"
 
 //pull the version history data
 var promise =  getColors(personalAccessToken, fileID).catch(error => console.log(error))
@@ -21,8 +18,7 @@ promise.then(function(data){
   //add them to the dropdowns    
   var foreground = document.getElementById("foreground") as HTMLSelectElement
   var background = document.getElementById("background") as HTMLSelectElement
-  // var foreground = document.getElementById("foreground") as HTMLUListElement
-  // var background = document.getElementById("background") as HTMLUListElement
+
   for (let i in colors) {
     addOption(foreground, colors[i].name, colors[i].id)
     addOption(background, colors[i].name, colors[i].id)
@@ -39,7 +35,7 @@ promise.then(function(data){
   })
   
   //return the value to code.ts
-  parent.postMessage({ pluginMessage: { type: 'color', data } }, '*')
+  parent.postMessage({ pluginMessage: { type: 'color', colors } }, '*')
 })
 
 
@@ -87,8 +83,6 @@ function readOutput(findex: number, bindex: number) {
   text1ID.style.color = "rgb("+ Math.round(colors[findex].r*255) + ',' + Math.round(colors[findex].g*255) + ',' + Math.round(colors[findex].b*255) + ")"
   text2ID.style.color = "rgb("+ Math.round(colors[findex].r*255) + ',' + Math.round(colors[findex].g*255) + ',' + Math.round(colors[findex].b*255) + ")"
   iconID.style.color = "rgb("+ Math.round(colors[findex].r*255) + ',' + Math.round(colors[findex].g*255) + ',' + Math.round(colors[findex].b*255) + ")"
-
-
 }
 
 //get the current colors selected on the foreground and background dropdowns
@@ -100,16 +94,18 @@ function getSelectedColors(){
 
 //if a line item passes, use the check icon from NEO
 function setToPass(id){
-  id.classList.remove("neo-icon-end")
-  id.classList.add("neo-icon-accept")
+  id.classList.remove("neo-icon-close")
+  id.classList.add("neo-icon-check")
   id.style.color = "#51A651"
+  id.setAttribute('aria-label', "pass")
 }
 
 //otherwise use the X icon from neo
 function setToFail(id){
-  id.classList.remove("neo-icon-accept")
-  id.classList.add("neo-icon-end")
+  id.classList.remove("neo-icon-check")
+  id.classList.add("neo-icon-close")
   id.style.color = "#E56E6E"
+  id.setAttribute('aria-label', "fail")
 }
 
 //grab the colors from the original file. Get the name and ID, and create a placeholder for the color values to be grabbed later
@@ -137,7 +133,7 @@ function extractColors(data, colors){
   for (let i in components){
     //loop through rectangles
     for (let j in components[i].children) {
-      if (components[i].children[j].type == "RECTANGLE") {
+      if (components[i].children[j].type == "RECTANGLE" || components[i].children[j].type == "VECTOR") {
         var id = components[i].children[j].styles.fill
         //check the colors for an id match
         for (let k in colors) {
@@ -145,7 +141,6 @@ function extractColors(data, colors){
             colors[k].r = components[i].children[j].fills[0].color.r
             colors[k].g = components[i].children[j].fills[0].color.g
             colors[k].b = components[i].children[j].fills[0].color.b
-            
             break
           }
         }
@@ -157,9 +152,6 @@ function extractColors(data, colors){
 //add the color option to the dropdown
 function addOption(id, name, value) {
   var option = document.createElement("option") as HTMLOptionElement
-  // var option = document.createElement("li") as HTMLLIElement
-  // id.setAttribute(value, name)
-  // id.appendChild(option)
   option.text = name
   option.value= value
   id.add(option)
