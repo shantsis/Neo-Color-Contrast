@@ -1,41 +1,18 @@
-Below are the steps to get your plugin running. You can also find instructions at:
+# Introduction
+This is a private figma plugin to check the color contrast between any of [Neo's](https://design.avayacloud.com) colors available within the design system. Instead of hard coding the values, it directly pulls the latest color styles from the associated library each time it runs. 
 
-  https://www.figma.com/plugin-docs/setup/
+# How to Use
+To run the plugin,
 
-This plugin template uses Typescript and NPM, two standard tools in creating JavaScript applications.
+1. Install the plugin.
+2. From any file, open the menu and run File -> Plugins -> Neo Color Contrast.
+3. Once the colors load, change either the foreground or background color to generate a [WCAG color contrast score](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html).
 
-First, download Node.js which comes with NPM. This will allow you to install TypeScript and other
-libraries. You can find the download link here:
+# Demo
+![GIF of using the plugin](https://github.com/shantsis/temp-contrast/blob/main/demo.gif)
 
-  https://nodejs.org/en/download/
+# Making it Your Own
+Link up to your own library or manually enter the colors into the plugin to generate your own values.
+* create a file called credentials.ts, and add 2 variables. One for the personal access token, and another for the file ID (where the styles are located)
+* in ui.ts, in lines 129-150 adjust how the plugin needs to find the color layers to extract the values
 
-Next, install TypeScript using the command:
-
-  npm install -g typescript
-
-Finally, in the directory of your plugin, get the latest type definitions for the plugin API by running:
-
-  npm install --saveDev @figma/plugin-typings
-
-If you are familiar with JavaScript, TypeScript will look very familiar. In fact, valid JavaScript code
-is already valid Typescript code.
-
-TypeScript adds type annotations to variables. This allows code editors such as Visual Studio Code
-to provide information about the Figma API while you are writing code, as well as help catch bugs
-you previously didn't notice.
-
-For more information, visit https://www.typescriptlang.org/
-
-Using TypeScript requires a compiler to convert TypeScript (code.ts) into JavaScript (code.js)
-for the browser to run.
-
-We recommend writing TypeScript code using Visual Studio code:
-
-1. Download Visual Studio Code if you haven't already: https://code.visualstudio.com/.
-2. Open this directory in Visual Studio Code.
-3. Compile TypeScript to JavaScript: Run the "Terminal > Run Build Task..." menu item,
-    then select "tsc: watch - tsconfig.json". You will have to do this again every time
-    you reopen Visual Studio Code.
-
-That's it! Visual Studio Code will regenerate the JavaScript file every time you save.
-# temp-contrast
