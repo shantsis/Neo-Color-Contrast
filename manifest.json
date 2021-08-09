@@ -3,5 +3,8 @@
   "id": "968710184198975163",
   "api": "1.0.0",
   "main": "dist/code.js",
-  "ui": "dist/ui.html"
+  "ui": "dist/ui.html",
+  "relaunchButtons": [
+    {"command": "open", "name": "Neo Color Contrast", "multipleSelection": true}
+  ]
 }
